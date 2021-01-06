@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     user: 'niv',
     // Be sure to update with your own MySQL password!
     password: 'suroghon',
-    database: 'EmployeeDB',
+    database: 'employeeDB',
   });
 
 //connect
@@ -18,5 +18,5 @@ connection.connect((err) => {
   if(err){
     throw err;
   }
-  console.log('MySQL connected...')
+  console.log("Connected as id " + connection.threadId)
 });
