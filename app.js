@@ -32,13 +32,47 @@ function init(){
     choices: ['View All Employees', 'View All Departments', 'View All Employee Roles', 'Add Employee', 'Add Department', 'Add role', 'Update Employee Role']
   })
   .then(function (response){
-    switch (response.start) {
+    switch (response.startPrompt) {
       
       case "View All Employees":
         viewEmployees();
         break;
-      
+
+        case "View All Departments":
+          viewDep();
+          break;
+
+      case "View All Employee Roles":
+        viewRoles();
+        break;
     }
+  })
+};
+
+function viewEmployees() {
+  const employeeQuery = `SELECT * FROM employee`
+  connection.query(employeeQuery, (err, data) => {
+    if (err) throw err;
+    console.table(data);
+    init();
+  })
+};
+
+function viewDep() {
+  const depQuery = `SELECT * FROM department`
+  connection.query(depQuery, (err, data) => {
+    if (err) throw err;
+    console.table(data);
+    init();
+  })
+};
+
+function viewRoles() {
+  const roleQuery = `SELECT title, salary FROM role`
+  connection.query(roleQuery, (err, data) => {
+    if (err) throw err;
+    console.table(data);
+    init();
   })
 };
 
