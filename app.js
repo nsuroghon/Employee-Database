@@ -38,12 +38,16 @@ function init(){
         viewEmployees();
         break;
 
-        case "View All Departments":
-          viewDep();
-          break;
+      case "View All Departments":
+        viewDep();
+        break;
 
       case "View All Employee Roles":
         viewRoles();
+        break;
+      
+      case "Add Employee":
+        addEmployee();
         break;
     }
   })
@@ -75,4 +79,41 @@ function viewRoles() {
     init();
   })
 };
+
+function addEmployee() {
+  inquirer.prompt([
+    {
+      type:"input",
+      name:"firstName",
+      message:"Enter employee's first name..."
+    },
+    {
+      type:"input",
+      name:"lastName",
+      message:"Enter employee's last name..."
+    },
+    {
+      type:"input",
+      name:"roleID",
+      message:"Enter role ID number"
+    },
+    {
+      type:"input",
+      name:"mangerID",
+      message:"Enter manager ID number"
+    }])
+    .then(answer => {
+      connection.query(
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)",
+        [answer.firstName, answer.lastName, answer.roleID, answer.managerID],
+        function(err) {
+          if (err) throw err;
+          console.log("new employee added!");
+          init();
+        }
+      )
+    })
+};
+
+
 
