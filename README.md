@@ -15,6 +15,8 @@ This application's purpose is to allow a user to easily navigate through, and up
 
 ## Preview
 
+![Screenshot of Functionality](https://github.com/nsuroghon/Employee-Database/blob/main/Assets/Screen%20Shot%202021-01-07%20at%209.35.33%20PM.png "Screenshot")
+
 ## Installation & Usage
 Clone locally, utilize node on app.js, where you will be guided by the command line. 
 
