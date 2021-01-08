@@ -49,6 +49,14 @@ function init(){
       case "Add Employee":
         addEmployee();
         break;
+      
+      case "Add Department":
+        addDep();
+        break;
+      
+      case "Add Role":
+        addRole();
+        break;
     }
   })
 };
@@ -110,10 +118,55 @@ function addEmployee() {
           if (err) throw err;
           console.log("new employee added!");
           init();
-        }
-      )
+        })
     })
 };
 
+function addDep(){
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "newDepartment",
+      message: "Enter new department name..."
+    }])
+  .then(answer => {
+    connection.query(
+      "INSERT INTO department(name) VALUES (?)",
+      [answer.newDepartment],
+      function (err) {
+        if (err) throw err;
+        console.log("new department added!")
+        init();
+      })
+  })
+};
 
-
+function addRole() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "roleTitle",
+      message: "Enter title for new employee role/position..."
+    },
+    {
+      type: "input",
+      name: "roleSalary",
+      message: "Enter position's Salary"
+    },
+    {
+      type: "input",
+      name: "roleDept",
+      message: "Enter department ID for this position"
+    }
+  ])
+    .then(answer => {
+      connection.query(
+        "INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)",
+        [answer.roleTitle, answer.roleSalary, answer.roleDept],
+        function (err) {
+          if (err) throw err;
+          console.log("new role added!");
+          init();
+        }
+      )})
+};
