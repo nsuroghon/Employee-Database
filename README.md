@@ -21,12 +21,6 @@ Clone locally, utilize node on app.js, where you will be guided by the command l
 ## Contribution
 Niv Suroghon, student developer. 
 
-## Test
-
-
-## License
-MIT
-
 ## More Info
 Github: https://github.com/nsuroghon
 
