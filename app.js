@@ -177,38 +177,69 @@ function addRole() {
 
 
 function updateRole() {
-  const roleQuery2 = `SELECT * FROM role`
-  connection.query(roleQuery2, (err, data2) => {
-    if (err) throw err;
-    console.table(data2)
-    console.log("IMPORTANT: Remember ID # of role you would like to update...")
-    init();
+  let query = ("SELECT * FROM employee");
+
+  connection.query(query, (err, response) => {
+
+    const employees = response.map(function (element) {
+      return {
+        name: `${element.first_name} ${element.last_name}`,
+        value: element.id
+      }
+    });
+
+    inquirer.prompt([{
+      type: "list",
+      name: "employeeId",
+      message: "Which employees role do you want to update",
+      choices: employees
+    }])
+      .then(input1 => {
+        connection.query("SELECT * FROM role", (err, data) => {
+
+          const roles = data.map(function (role) {
+            return {
+              name: role.title,
+              value: role.id
+            }
+          });
+
+          inquirer.prompt([{
+            type: "list",
+            name: "roleId",
+            message: "What's the new role",
+            choices: roles
+          }])
+            .then(input2 => {
+              const query1 = `UPDATE employee
+        SET employee.role_id = ? 
+        WHERE employee.id = ?`
+              connection.query(query1, [input2.roleId, input1.employeeId], function (err, res) {
+                var tempPosition;
+                // will return the updated position
+                for (var k = 0; k < roles.length; k++) {
+                  if (roles[k].value == input2.roleId) {
+                    tempPosition = roles[k].name;
+                  }
+                }
+                // will return the employee
+                var tempName;
+                for (var g = 0; g < employees.length; g++) {
+                  if (employees[g].value == input1.employeeId) {
+                    tempName = employees[g].name;
+                  }
+                }
+
+                if (res.changedRows === 1) {
+                  console.log(`Successfully updated ${tempName} to position of ${tempPosition}`);
+                } else {
+                  console.log(`Error: ${tempName}'s current position is ${tempPosition}`)
+                }
+                // console.log(res.changedRows);
+                init();
+              })
+            })
+        })
+      })
   })
-}
-//   inquirer.prompt([
-//     {
-//       type: "input",
-//       name: "updateTitle",
-//       message: "Enter the name of the role you want to update..."
-//     },
-//       .then(answer => {
-//         connection.query
-//       })
-//     {
-//       type: "input",
-//       name: "updateSalary",
-//       message: "Enter the salary amount for this position..."
-//     },
-//     {
-//       type: "input",
-//       name: "updateID",
-//       message: "Enter the department ID to be updated.."
-//     },
-//   ])
-//     .then(answer => {
-//       connection.query(
-//         //UPDATE users SET email = 'freddy@gmail.com' WHERE id = 2;
-//         "UPDATE role SET email = ?"
-//       )
-//     })
-// }
+};
