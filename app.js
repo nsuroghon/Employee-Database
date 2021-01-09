@@ -57,6 +57,10 @@ function init(){
       case "Add Role":
         addRole();
         break;
+
+      case "Update Employee Role":
+        updateRole();
+        break;
     }
   })
 };
@@ -170,3 +174,41 @@ function addRole() {
         }
       )})
 };
+
+
+function updateRole() {
+  const roleQuery2 = `SELECT * FROM role`
+  connection.query(roleQuery2, (err, data2) => {
+    if (err) throw err;
+    console.table(data2)
+    console.log("IMPORTANT: Remember ID # of role you would like to update...")
+    init();
+  })
+}
+//   inquirer.prompt([
+//     {
+//       type: "input",
+//       name: "updateTitle",
+//       message: "Enter the name of the role you want to update..."
+//     },
+//       .then(answer => {
+//         connection.query
+//       })
+//     {
+//       type: "input",
+//       name: "updateSalary",
+//       message: "Enter the salary amount for this position..."
+//     },
+//     {
+//       type: "input",
+//       name: "updateID",
+//       message: "Enter the department ID to be updated.."
+//     },
+//   ])
+//     .then(answer => {
+//       connection.query(
+//         //UPDATE users SET email = 'freddy@gmail.com' WHERE id = 2;
+//         "UPDATE role SET email = ?"
+//       )
+//     })
+// }
